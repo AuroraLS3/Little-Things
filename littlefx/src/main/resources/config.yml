@@ -1,0 +1,35 @@
+Effects:
+  Example_PathSpeedEffect:
+    Strength: 2
+    Effects:
+      - SPEED
+    Blocks:
+      - GRAVEL
+      - GRASS_PATH
+  Example_LackOfOxygen:
+    Length: 20
+    Strength: 3
+    Effects:
+      - SLOW_DIGGING
+    Blocks:
+      - BEDROCK
+  Example_CantBurnWet:
+    Length: 3
+    Strength: 1
+    Effects:
+      - FIRE_RESISTANCE
+    Blocks:
+      - WATER
+      - STATIONARY_WATER
+  Example_DimensionSickness:
+    Length: 30
+    Effects:
+      - WEAKNESS
+    Blocks:
+      - PORTAL
+  Example_PoisonousCacti:
+    Length: 20
+    Effects:
+      - POISON
+    Blocks:
+      - CACTUS

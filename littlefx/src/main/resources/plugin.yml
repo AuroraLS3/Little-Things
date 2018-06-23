@@ -1,0 +1,14 @@
+name: LittleFX
+author: Rsl1122
+main: com.djrapitops.littlefx.LittleFX
+version: 1.0.0
+
+commands:
+  littlefx:
+    usage: /littlefx reload
+    description: reloads littlefx
+
+permissions:
+  littlefx.reload:
+    description: reload command
+    default: OP
