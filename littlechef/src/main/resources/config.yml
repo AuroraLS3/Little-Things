@@ -1,0 +1,46 @@
+Recipes:
+  Toast:
+    In:
+      Item: BREAD
+    Out:
+      Item: BREAD
+      Name: 'Toast'
+      Saturation: 1
+  Potato_Mash:
+    In:
+      Item: BAKED_POTATO
+    Out:
+      Item: BAKED_POTATO
+      Name: 'Potato Mash'
+      Saturation: 1
+
+  Smelt_Gold_Helmet:
+    In:
+      Item: GOLD_HELMET
+    Out:
+      Item: GOLD_NUGGET
+      Amount: 3
+  Smelt_Gold_Chest:
+    In:
+      Item: GOLD_CHESTPLATE
+    Out:
+      Item: GOLD_NUGGET
+      Amount: 6
+  Smelt_Gold_Pants:
+    In:
+      Item: GOLD_LEGGINGS
+    Out:
+      Item: GOLD_NUGGET
+      Amount: 5
+  Smelt_Gold_Boots:
+    In:
+      Item: GOLD_BOOTS
+    Out:
+      Item: GOLD_NUGGET
+      Amount: 2
+  Smelt_Gold_Sword:
+    In:
+      Item: GOLD_SWORD
+    Out:
+      Item: GOLD_NUGGET
+      Amount: 2

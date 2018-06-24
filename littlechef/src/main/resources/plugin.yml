@@ -1,0 +1,14 @@
+name: LittleChef
+author: Rsl1122
+main: com.djrapitops.littlechef.LittleChef
+version: 1.0.0
+
+commands:
+  littlechef:
+    usage: /littlechef reload
+    description: reloads littlechef
+
+permissions:
+  littlechef.reload:
+    description: reload command
+    default: OP
