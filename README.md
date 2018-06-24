@@ -11,3 +11,10 @@ Little Effects allows specifying a short duration potion effects to any blocks t
 
 - [Plugin Page](https://www.spigotmc.org/resources/little-effects.58049/)
 - [Default Config](littlefx/src/main/resources/config.yml)
+
+# Little Chef
+
+Little Chef allows specifying custom furnace recipes to allow smelting gold items back into gold nuggets and to create more food items.
+
+- [Plugin Page](https://www.spigotmc.org/resources/little-chef.58065/)
+- [Default Config](littlechef/src/main/resources/config.yml)
