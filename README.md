@@ -1,4 +1,4 @@
-# ![Little Things](http://puu.sh/AKJ1Z/1f24a6338d.png)
+# ![Little Things](https://raw.githubusercontent.com/Rsl1122/Little-Things/master/images/LittleThings.png)
 
 Little Things is a collection of simple, small plugins that can be used to enhance gameplay and server experience of players.
 Each plugin attempts to solve a single thing well.
