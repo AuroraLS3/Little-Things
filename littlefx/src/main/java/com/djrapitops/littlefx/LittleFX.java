@@ -1,12 +1,16 @@
 package com.djrapitops.littlefx;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,6 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * Main JavaPlugin class.
@@ -24,6 +29,7 @@ public class LittleFX extends JavaPlugin implements Listener {
 
     private Logger logger;
     private List<Effect> effects;
+    private List<Effect> mobEffects;
 
     @Override
     public void onEnable() {
@@ -42,6 +48,7 @@ public class LittleFX extends JavaPlugin implements Listener {
         saveDefaultConfig();
         reloadConfig();
         effects = new FXConfig(logger, getConfig()).loadEffects();
+        mobEffects = effects.stream().filter(Effect::appliesToMobs).collect(Collectors.toList());
         logger.log(Level.INFO, "Loaded " + effects.size() + " effects.");
     }
 
@@ -66,7 +73,6 @@ public class LittleFX extends JavaPlugin implements Listener {
                     "",
                     ">"
             });
-            sender.sendMessage(ChatColor.GRAY + "LittleFX Help:");
         }
         return true;
     }
@@ -75,9 +81,86 @@ public class LittleFX extends JavaPlugin implements Listener {
     public void onPlayerMoveEvent(PlayerMoveEvent event) {
         Player player = event.getPlayer();
         for (Effect effect : effects) {
-            if (effect.shouldApplyTo(player)) {
+            if (effect.shouldApplyToPlayer(player)) {
                 effect.apply(player);
             }
         }
+    }
+
+    public void onMobMoveEvent(EntityEvent event) {
+        Entity entity = event.getEntity();
+        if (entity instanceof Player || !(entity instanceof LivingEntity)) return;
+
+        LivingEntity living = (LivingEntity) entity;
+        for (Effect effect : mobEffects) {
+            if (effect.shouldApplyToMob(living)) {
+                effect.apply(living);
+            }
+        }
+    }
+
+    @EventHandler
+    public void event(AreaEffectCloudApplyEvent event) {
+        onMobMoveEvent(event);
+    }
+
+    @EventHandler
+    public void event(EntityChangeBlockEvent event) {
+        onMobMoveEvent(event);
+    }
+
+    @EventHandler
+    public void event(EntityCombustEvent event) {
+        onMobMoveEvent(event);
+    }
+
+    @EventHandler
+    public void event(EntityDamageEvent event) {
+        onMobMoveEvent(event);
+    }
+
+    @EventHandler
+    public void event(EntityInteractEvent event) {
+        onMobMoveEvent(event);
+    }
+
+    @EventHandler
+    public void event(EntityPickupItemEvent event) {
+        onMobMoveEvent(event);
+    }
+
+    @EventHandler
+    public void event(EntityRegainHealthEvent event) {
+        onMobMoveEvent(event);
+    }
+
+    @EventHandler
+    public void event(EntityShootBowEvent event) {
+        onMobMoveEvent(event);
+    }
+
+    @EventHandler
+    public void event(EntityTargetEvent event) {
+        onMobMoveEvent(event);
+    }
+
+    @EventHandler
+    public void event(EntityToggleSwimEvent event) {
+        onMobMoveEvent(event);
+    }
+
+    @EventHandler
+    public void event(HorseJumpEvent event) {
+        onMobMoveEvent(event);
+    }
+
+    @EventHandler
+    public void event(SheepRegrowWoolEvent event) {
+        onMobMoveEvent(event);
+    }
+
+    @EventHandler
+    public void event(SlimeSplitEvent event) {
+        onMobMoveEvent(event);
     }
 }

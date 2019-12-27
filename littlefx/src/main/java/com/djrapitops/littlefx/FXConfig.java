@@ -1,15 +1,18 @@
 package com.djrapitops.littlefx;
 
+import com.djrapitops.littlefx.condition.BlockCondition;
+import com.djrapitops.littlefx.condition.HeightCondition;
+import com.djrapitops.littlefx.condition.RegionCondition;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,7 +37,7 @@ public class FXConfig {
     }
 
     private List<Effect> getEffects(ConfigurationSection effects) {
-        List<Effect> list = new ArrayList<Effect>();
+        List<Effect> list = new ArrayList<>();
         for (String effectName : effects.getKeys(false)) {
             try {
                 ConfigurationSection effect = effects.getConfigurationSection(effectName);
@@ -47,19 +50,36 @@ public class FXConfig {
     }
 
     private Effect getEffect(ConfigurationSection effect) throws InvalidConfigurationException {
-
         boolean hasLength = effect.contains("Length");
         boolean hasStrength = effect.contains("Strength");
         boolean requiresPermission = effect.contains("Permission");
+        boolean appliesToMobs = effect.getBoolean("Also_for_Mobs");
         List<String> blockNames = effect.getStringList("Blocks");
         List<String> potionEffectNames = effect.getStringList("Effects");
+        Optional<Integer> above = effect.contains("Above_y") ? Optional.of(effect.getInt("Above_y")) : Optional.empty();
+        Optional<Integer> below = effect.contains("Below_y") ? Optional.of(effect.getInt("Below_y")) : Optional.empty();
+        String regionName = effect.getString("Region");
 
         int length = hasLength ? effect.getInt("Length") : 7;
         int strength = hasStrength ? effect.getInt("Strength") : 1;
+
+        Set<Predicate<Location>> conditions = new HashSet<>();
         Set<Material> blocks = getMaterials(blockNames);
+        if (!blocks.isEmpty()) {
+            conditions.add(new BlockCondition(blocks));
+        }
+
+        if (above.isPresent() || below.isPresent()) {
+            conditions.add(new HeightCondition(below.orElse(-50), above.orElse(255)));
+        }
+
+        if (isWorldGuardEnabled() && !regionName.isEmpty()) {
+            conditions.add(new RegionCondition(regionName));
+        }
+
         Set<PotionEffectType> potionEffects = getPotionEffects(potionEffectNames);
         String permission = requiresPermission ? effect.getString("Permission") : null;
-        return new Effect(length, strength, potionEffects, blocks, permission);
+        return new Effect(length, strength, potionEffects, conditions, permission, appliesToMobs);
     }
 
     private Set<PotionEffectType> getPotionEffects(List<String> potionEffectNames) throws InvalidConfigurationException {
@@ -75,7 +95,9 @@ public class FXConfig {
     }
 
     private Set<Material> getMaterials(List<String> blockNames) throws InvalidConfigurationException {
-        Set<Material> materials = new HashSet<Material>();
+        if (blockNames.isEmpty()) return Collections.emptySet();
+
+        Set<Material> materials = new HashSet<>();
         for (String blockName : blockNames) {
             Material material = Material.getMaterial(blockName);
             if (material == null) {
@@ -86,4 +108,7 @@ public class FXConfig {
         return materials;
     }
 
+    private boolean isWorldGuardEnabled() {
+        return Bukkit.getPluginManager().isPluginEnabled("WorldGuard");
+    }
 }

@@ -1,13 +1,13 @@
 package com.djrapitops.littlefx;
 
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
+import org.bukkit.Location;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * Defines a config entry for a potion effect.
@@ -19,20 +19,22 @@ public class Effect {
     private final int length;
     private final int strength;
     private final Set<PotionEffectType> effects;
-    private final Set<Material> blocks;
+    private final Set<Predicate<Location>> conditions;
     private final String permission;
+    private final boolean appliesToMobs;
 
-    private Map<UUID, Long> lastApplied = new HashMap<UUID, Long>();
+    private Map<UUID, Long> lastApplied = new HashMap<>();
 
-    public Effect(int length, int strength, Set<PotionEffectType> effects, Set<Material> blocks, String permission) {
+    public Effect(int length, int strength, Set<PotionEffectType> effects, Set<Predicate<Location>> conditions, String permission, boolean appliesToMobs) {
         this.length = length;
         this.effects = effects;
-        this.blocks = blocks;
+        this.conditions = conditions;
         this.strength = strength;
         this.permission = permission;
+        this.appliesToMobs = appliesToMobs;
     }
 
-    public boolean shouldApplyTo(Player player) {
+    public boolean shouldApplyToPlayer(Player player) {
         if (permission != null && !player.hasPermission(permission)) {
             return false;
         }
@@ -45,30 +47,32 @@ public class Effect {
             return false;
         }
 
-        Block playerBlock = player.getLocation().getBlock();
-        Block down = playerBlock.getRelative(BlockFace.DOWN);
-        Block up = playerBlock.getRelative(BlockFace.UP);
-        Block north = playerBlock.getRelative(BlockFace.NORTH);
-        Block south = playerBlock.getRelative(BlockFace.SOUTH);
-        Block east = playerBlock.getRelative(BlockFace.EAST);
-        Block west = playerBlock.getRelative(BlockFace.WEST);
-
-        for (Block block : Arrays.asList(playerBlock, down, up, north, south, east, west)) {
-            if (blocks.contains(block.getType())) {
-                return true;
-            }
+        for (Predicate<Location> condition : conditions) {
+            if (!condition.test(player.getLocation())) return false;
         }
-        return false;
+        return true;
     }
 
-    public void apply(Player player) {
+    public boolean shouldApplyToMob(LivingEntity entity) {
+        if (!appliesToMobs) return false;
+        for (Predicate<Location> condition : conditions) {
+            if (!condition.test(entity.getLocation())) return false;
+        }
+        return true;
+    }
+
+    public boolean appliesToMobs() {
+        return appliesToMobs;
+    }
+
+    public void apply(LivingEntity entity) {
         for (PotionEffectType effect : effects) {
-            PotionEffect currentEffect = player.getPotionEffect(effect);
+            PotionEffect currentEffect = entity.getPotionEffect(effect);
             if (currentEffect != null && currentEffect.getDuration() > length * 20 && currentEffect.getAmplifier() > strength - 1) {
                 continue;
             }
-            player.addPotionEffect(effect.createEffect(length * 20, strength - 1), true);
+            entity.addPotionEffect(effect.createEffect(length * 20, strength - 1), true);
         }
-        lastApplied.put(player.getUniqueId(), System.currentTimeMillis());
+        lastApplied.put(entity.getUniqueId(), System.currentTimeMillis());
     }
 }
