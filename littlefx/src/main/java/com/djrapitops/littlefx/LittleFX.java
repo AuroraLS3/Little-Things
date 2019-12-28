@@ -1,6 +1,5 @@
 package com.djrapitops.littlefx;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -125,11 +124,6 @@ public class LittleFX extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void event(EntityPickupItemEvent event) {
-        onMobMoveEvent(event);
-    }
-
-    @EventHandler
     public void event(EntityRegainHealthEvent event) {
         onMobMoveEvent(event);
     }
@@ -141,11 +135,6 @@ public class LittleFX extends JavaPlugin implements Listener {
 
     @EventHandler
     public void event(EntityTargetEvent event) {
-        onMobMoveEvent(event);
-    }
-
-    @EventHandler
-    public void event(EntityToggleSwimEvent event) {
         onMobMoveEvent(event);
     }
 
