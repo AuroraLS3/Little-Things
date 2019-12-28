@@ -6,6 +6,10 @@ Recipes:
       Item: BREAD
       Name: 'Toast'
       Saturation: 1
+    Campfire: true
+    Smoker: true
+    Cooking_time_seconds: 5
+    Xp: 0.0
   Potato_Mash:
     In:
       Item: BAKED_POTATO
@@ -13,34 +17,42 @@ Recipes:
       Item: BAKED_POTATO
       Name: 'Potato Mash'
       Saturation: 1
-
+    Campfire: true
+    Smoker: true
+    Cooking_time_seconds: 5
+    Xp: 0.0
   Smelt_Gold_Helmet:
     In:
-      Item: GOLD_HELMET
+      Item: GOLDEN_HELMET
     Out:
       Item: GOLD_NUGGET
       Amount: 3
+    Blast: true
   Smelt_Gold_Chest:
     In:
-      Item: GOLD_CHESTPLATE
+      Item: GOLDEN_CHESTPLATE
     Out:
       Item: GOLD_NUGGET
       Amount: 6
+    Blast: true
   Smelt_Gold_Pants:
     In:
-      Item: GOLD_LEGGINGS
+      Item: GOLDEN_LEGGINGS
     Out:
       Item: GOLD_NUGGET
       Amount: 5
+    Blast: true
   Smelt_Gold_Boots:
     In:
-      Item: GOLD_BOOTS
+      Item: GOLDEN_BOOTS
     Out:
       Item: GOLD_NUGGET
       Amount: 2
+    Blast: true
   Smelt_Gold_Sword:
     In:
-      Item: GOLD_SWORD
+      Item: GOLDEN_SWORD
     Out:
       Item: GOLD_NUGGET
       Amount: 2
+    Blast: true

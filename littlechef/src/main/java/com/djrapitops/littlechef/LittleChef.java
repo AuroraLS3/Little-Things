@@ -1,6 +1,7 @@
 package com.djrapitops.littlechef;
 
 import org.bukkit.ChatColor;
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -8,8 +9,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
-import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,7 +27,7 @@ import java.util.logging.Logger;
 public class LittleChef extends JavaPlugin implements Listener {
 
     private Logger logger;
-    private List<FurnaceRecipe> recipes;
+    private List<Recipe> recipes;
 
     @Override
     public void onEnable() {
@@ -41,11 +42,16 @@ public class LittleChef extends JavaPlugin implements Listener {
         logger.log(Level.INFO, "Enabled LittleChef.");
     }
 
+    private NamespacedKey getKey(String key) {
+        return new NamespacedKey(this, key);
+    }
+
     private void reloadEffects() {
         saveDefaultConfig();
         reloadConfig();
-        recipes = new ChefConfig(logger, getConfig()).loadRecipes();
-        for (FurnaceRecipe recipe : recipes) {
+        recipes = new ChefConfig(logger, getConfig(), this::getKey).loadRecipes();
+
+        for (Recipe recipe : recipes) {
             if (!getServer().addRecipe(recipe)) {
                 logger.log(Level.WARNING, "Could not add a recipe: " + recipe);
             }
