@@ -18,3 +18,10 @@ Little Chef allows specifying custom furnace recipes to allow smelting gold item
 
 - [Plugin Page](https://www.spigotmc.org/resources/little-chef.58065/)
 - [Default Config](littlechef/src/main/resources/config.yml)
+
+# Little Composter
+
+Little Composter allows adding different items to a Composter block, such as pufferfish or bamboo.
+
+- [Plugin Page](https://www.spigotmc.org/resources/little-composter.73880/)
+- [Default Config](https://github.com/Rsl1122/Little-Things/blob/master/littlecomposter/src/main/resources/config.yml)
