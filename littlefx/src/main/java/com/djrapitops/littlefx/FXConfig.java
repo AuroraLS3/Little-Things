@@ -73,7 +73,7 @@ public class FXConfig {
             conditions.add(new HeightCondition(below.orElse(-50), above.orElse(255)));
         }
 
-        if (isWorldGuardEnabled() && !regionName.isEmpty()) {
+        if (isWorldGuardEnabled() && regionName != null && !regionName.isEmpty()) {
             conditions.add(new RegionCondition(regionName));
         }
 
@@ -83,7 +83,7 @@ public class FXConfig {
     }
 
     private Set<PotionEffectType> getPotionEffects(List<String> potionEffectNames) throws InvalidConfigurationException {
-        Set<PotionEffectType> potionEffectTypes = new HashSet<PotionEffectType>();
+        Set<PotionEffectType> potionEffectTypes = new HashSet<>();
         for (String potionEffectName : potionEffectNames) {
             PotionEffectType type = PotionEffectType.getByName(potionEffectName);
             if (type == null) {

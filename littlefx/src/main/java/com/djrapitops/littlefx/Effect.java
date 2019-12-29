@@ -26,7 +26,7 @@ public class Effect {
     private final String permission;
     private final boolean appliesToMobs;
 
-    private Map<UUID, Long> lastApplied = new HashMap<>();
+    private final Map<UUID, Long> lastApplied = new HashMap<>();
 
     public Effect(int length, int strength, Set<PotionEffectType> effects, Set<Predicate<Location>> conditions, String permission, boolean appliesToMobs) {
         this.length = length;
