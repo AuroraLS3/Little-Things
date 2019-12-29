@@ -9,7 +9,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,13 +34,13 @@ public class ChefConfig {
         this.getKey = getKey;
     }
 
-    public List<Recipe> loadRecipes() {
+    public Collection<Recipe> loadRecipes() {
         ConfigurationSection recipes = config.getConfigurationSection("Recipes");
         return getRecipes(recipes);
     }
 
-    private List<Recipe> getRecipes(ConfigurationSection recipes) {
-        List<Recipe> list = new ArrayList<>();
+    private Collection<Recipe> getRecipes(ConfigurationSection recipes) {
+        Set<Recipe> list = new HashSet<>();
         for (String recipeName : recipes.getKeys(false)) {
             try {
                 ConfigurationSection recipe = recipes.getConfigurationSection(recipeName);
