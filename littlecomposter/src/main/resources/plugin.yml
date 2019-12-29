@@ -1,0 +1,16 @@
+name: LittleComposter
+author: Rsl1122
+main: com.djrapitops.littlecomposter.LittleComposter
+version: 1.0.0
+api-version: 1.14
+
+commands:
+  littlecomposter:
+    usage: /littlecomposter reload
+    description: reloads littlecomposter
+    permission: littlecomposter.reload
+
+permissions:
+  littlecomposter.reload:
+    description: reload command
+    default: op
