@@ -98,7 +98,7 @@ public class LittleComposter extends JavaPlugin implements Listener {
         if (item == null) return;
 
         Material type = item.getType();
-        if (shouldCompost(type) && increaseComposterLevel(type, destination)) {
+        if (shouldCompost(type) && increaseComposterLevel(type, destination, true)) {
             int amount = item.getAmount();
             item.setAmount(--amount);
         }
@@ -122,7 +122,7 @@ public class LittleComposter extends JavaPlugin implements Listener {
 
         ItemStack item = e.getItem();
         Material type = item.getType();
-        if (shouldCompost(type) && increaseComposterLevel(type, destination)) {
+        if (shouldCompost(type) && increaseComposterLevel(type, destination, false)) {
             int amount = item.getAmount();
             item.setAmount(--amount);
         }
@@ -141,9 +141,10 @@ public class LittleComposter extends JavaPlugin implements Listener {
      *
      * @param type           Type of the material
      * @param composterBlock Composter
+     * @param playSound
      * @return true if the level was increased, false if the composter is full.
      */
-    private boolean increaseComposterLevel(Material type, Block composterBlock) {
+    private boolean increaseComposterLevel(Material type, Block composterBlock, boolean playSound) {
         Levelled composter = (Levelled) composterBlock.getBlockData();
         int maxLevel = composter.getMaximumLevel() - 1; // -1 to avoid full composter
         boolean succeeded = succeeds(type);
@@ -154,8 +155,10 @@ public class LittleComposter extends JavaPlugin implements Listener {
                 composter.setLevel(++currLevel);
                 composterBlock.setBlockData(composter);
             }
-            composterBlock.getWorld().playSound(composterBlock.getLocation(),
-                    succeeded ? Sound.BLOCK_COMPOSTER_FILL_SUCCESS : Sound.BLOCK_COMPOSTER_FILL, 1, 1);
+            if (playSound) {
+                composterBlock.getWorld().playSound(composterBlock.getLocation(),
+                        succeeded ? Sound.BLOCK_COMPOSTER_FILL_SUCCESS : Sound.BLOCK_COMPOSTER_FILL, 1, 1);
+            }
             return true;
         }
         return false;
