@@ -1,0 +1,16 @@
+name: LittleXP
+author: Rsl1122
+main: com.djrapitops.littlexp.LittleXP
+version: 1.0.0
+api-version: 1.14
+
+commands:
+  littlexp:
+    usage: /littlexp reload
+    description: reloads littlexp
+    permission: littlexp.reload
+
+permissions:
+  littlexp.reload:
+    description: reload command
+    default: op
