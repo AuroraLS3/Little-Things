@@ -25,3 +25,10 @@ Little Composter allows adding different items to a Composter block, such as puf
 
 - [Plugin Page](https://www.spigotmc.org/resources/little-composter.73880/)
 - [Default Config](https://github.com/Rsl1122/Little-Things/blob/master/littlecomposter/src/main/resources/config.yml)
+
+# Mob banners
+
+Mob banners adds Terraria-like banners to minecraft.
+
+- [Plugin Page](https://www.spigotmc.org/resources/mob-banners.89374/)
+- [Default Config](https://github.com/AuroraLS3/Little-Things/blob/master/littlemobbanners/src/main/resources/config.yml)
