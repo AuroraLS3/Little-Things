@@ -24,7 +24,8 @@ public class BannerConfig {
     public BannerAward getAward(EntityType entityType, BannerTags tagType) {
         return new BannerAward(
                 getRequiredKills(entityType),
-                tagType.getTag()
+                tagType.getTag(),
+                getReadableName(entityType)
         );
     }
 

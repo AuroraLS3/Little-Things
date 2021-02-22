@@ -1,5 +1,5 @@
 Announce_banner_rewards: true
-Reward_message: "&2%player% has defeated %n%th %mob%!"
+Reward_message: "&2%player% has defeated their %n%th %mob%!"
 Reward_banner_every_x_kill:
   BAT: 25
   BEE: 25
