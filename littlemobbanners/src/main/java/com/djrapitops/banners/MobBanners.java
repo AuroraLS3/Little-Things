@@ -172,12 +172,6 @@ public class MobBanners extends JavaPlugin implements Listener {
         if (!sender.hasPermission("banners.reload")) {
             sender.sendMessage(ChatColor.RED + "You don't have permission for this command!");
         }
-        if (args.length == 0) {
-            for (BannerAward value : awards.values()) {
-                value.award(sender.getName());
-            }
-            return true;
-        }
         if (args.length != 0 && args[0].equals("reload")) {
             reloadAwards();
             sender.sendMessage(ChatColor.GREEN + "Loaded " + awards.size() + " banners.");
