@@ -239,6 +239,7 @@ public class MobBanners extends JavaPlugin implements Listener {
 
     private void saveKillCounter(UUID playerUUID) {
         KillCounter killCounter = killCounters.get(playerUUID);
+        if (killCounter == null) return;
         try {
             killCounterStorage.save(playerUUID, killCounter);
         } catch (IOException e) {
