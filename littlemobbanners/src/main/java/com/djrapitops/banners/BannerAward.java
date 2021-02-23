@@ -18,8 +18,8 @@ public class BannerAward {
         return killCount % everyXKills == 0;
     }
 
-    public void award(String playerName) {
-        Bukkit.dispatchCommand(
+    public boolean award(String playerName) {
+        return Bukkit.dispatchCommand(
                 Bukkit.getConsoleSender(),
                 "give " + playerName + " minecraft:" + bannerTag.replace("_banner{", "_banner{display:{Name:\"{\\\"text\\\":\\\"" + readableName + " banner" + "\\\"}\"},") + " 1"
         );

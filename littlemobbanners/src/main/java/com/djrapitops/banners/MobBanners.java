@@ -46,7 +46,6 @@ public class MobBanners extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         logger = getLogger();
-        config = new BannerConfig(getConfig());
         try {
             killCounterStorage = new KillCounterStorage(getDataFolder());
         } catch (IOException e) {
@@ -82,6 +81,7 @@ public class MobBanners extends JavaPlugin implements Listener {
     private void reloadAwards() {
         saveDefaultConfig();
         reloadConfig();
+        config = new BannerConfig(getConfig());
         clearAwards();
         loadAwards();
     }
@@ -218,7 +218,10 @@ public class MobBanners extends JavaPlugin implements Listener {
 
         if (!award.shouldAward(totalKilled)) return;
 
-        award.award(playerName);
+        if (!award.award(playerName)) {
+            killerEntity.sendMessage("§c[MobBanners] Banner could not be awarded, make sure the server is version 1.16+");
+            return;
+        }
 
         String rewardMessage = config.getRewardMessage(playerName, totalKilled, killedType);
         if (config.arePublicMessagesEnabled()) {

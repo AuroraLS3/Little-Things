@@ -1,7 +1,7 @@
 name: MobBanners
 author: AuroraLS3
 main: com.djrapitops.banners.MobBanners
-version: 1.0.1
+version: 1.0.2
 api-version: 1.16
 
 commands:
