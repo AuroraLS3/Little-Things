@@ -21,7 +21,7 @@ public class BannerAward {
     public boolean award(String playerName) {
         return Bukkit.dispatchCommand(
                 Bukkit.getConsoleSender(),
-                "give " + playerName + " minecraft:" + bannerTag.replace("_banner{", "_banner{display:{Name:\"{\\\"text\\\":\\\"" + readableName + " banner" + "\\\"}\"},") + " 1"
+                "minecraft:give " + playerName + " minecraft:" + bannerTag.replace("_banner{", "_banner{display:{Name:\"{\\\"text\\\":\\\"" + readableName + " banner" + "\\\"}\"},") + " 1"
         );
     }
 }
