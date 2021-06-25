@@ -122,9 +122,13 @@ public class LittleComposter extends JavaPlugin implements Listener {
 
         ItemStack item = e.getItem();
         Material type = item.getType();
-        if (shouldCompost(type) && increaseComposterLevel(type, destination, false)) {
-            int amount = item.getAmount();
-            item.setAmount(--amount);
+        if (shouldCompost(type)) {
+            boolean increased = increaseComposterLevel(type, destination, false);
+            if (increased) {
+                int amount = item.getAmount();
+                item.setAmount(--amount);
+                e.setItem(item);
+            }
         }
     }
 
@@ -173,7 +177,7 @@ public class LittleComposter extends JavaPlugin implements Listener {
         UP(0, 1, 0),
         DOWN(0, -1, 0);
 
-        private Vector vector;
+        private final Vector vector;
 
         Faces(int x, int y, int z) {
             vector = new Vector(x, y, z);
