@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 /**
  * Class for getting Compost items out of config file.
  *
- * @author Rsl1122
+ * @author AuroraLS3
  */
 public class ComposterConfig {
 

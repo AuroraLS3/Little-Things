@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 /**
  * Main JavaPlugin class.
  *
- * @author Rsl1122
+ * @author AuroraLS3
  */
 public class LittleComposter extends JavaPlugin implements Listener {
 
