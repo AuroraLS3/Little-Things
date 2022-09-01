@@ -14,7 +14,7 @@ Effects:
     Particles: false
     Effects:
       - BLINDNESS
-    Below_y: 5
+    Below_y: -59
   Example_CantBurnWet:
     Length: 3
     Strength: 1
