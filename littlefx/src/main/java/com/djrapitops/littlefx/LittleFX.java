@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 /**
  * Main JavaPlugin class.
  *
- * @author Rsl1122
+ * @author AuroraLS3
  */
 public class LittleFX extends JavaPlugin implements Listener {
 

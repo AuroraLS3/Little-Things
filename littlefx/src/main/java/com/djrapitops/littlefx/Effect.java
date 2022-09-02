@@ -15,13 +15,13 @@ import java.util.function.Predicate;
 /**
  * Defines a config entry for a potion effect.
  *
- * @author Rsl1122
+ * @author AuroraLS3
  */
 public class Effect {
 
     private final int length;
     private final int strength;
-    private boolean particles;
+    private final boolean showParticles;
     private final Set<PotionEffectType> effects;
     private final Set<Predicate<Location>> conditions;
     private final String permission;
@@ -29,10 +29,10 @@ public class Effect {
 
     private final Map<UUID, Long> lastApplied = new HashMap<>();
 
-    public Effect(int length, int strength, boolean particles, Set<PotionEffectType> effects, Set<Predicate<Location>> conditions, String permission, boolean appliesToMobs) {
+    public Effect(int length, int strength, boolean showParticles, Set<PotionEffectType> effects, Set<Predicate<Location>> conditions, String permission, boolean appliesToMobs) {
         this.length = length;
         this.effects = effects;
-        this.particles = particles;
+        this.showParticles = showParticles;
         this.conditions = conditions;
         this.strength = strength;
         this.permission = permission;
@@ -43,12 +43,12 @@ public class Effect {
         if (permission != null && !player.hasPermission(permission)) {
             return false;
         }
-        Long lastApplied = this.lastApplied.get(player.getUniqueId());
-        long delay = length - 2;
+        Long lastAppliedToPlayer = this.lastApplied.get(player.getUniqueId());
+        long delay = length - 2L;
         if (delay <= 0) {
             delay = 1;
         }
-        if (lastApplied != null && System.currentTimeMillis() - lastApplied < delay * 1000) {
+        if (lastAppliedToPlayer != null && System.currentTimeMillis() - lastAppliedToPlayer < delay * 1000) {
             return false;
         }
 
@@ -76,7 +76,8 @@ public class Effect {
             if (currentEffect != null && currentEffect.getDuration() > length * 20 && currentEffect.getAmplifier() > strength - 1) {
                 continue;
             }
-            entity.addPotionEffect(new PotionEffect(effectType, length * 20, strength - 1, false, particles));
+            boolean ambient = false;
+            entity.addPotionEffect(new PotionEffect(effectType, length * 20, strength - 1, ambient, showParticles));
         }
         lastApplied.put(entity.getUniqueId(), System.currentTimeMillis());
     }

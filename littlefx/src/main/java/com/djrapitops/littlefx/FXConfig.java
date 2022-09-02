@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 /**
  * Class for getting Effects out of config file.
  *
- * @author Rsl1122
+ * @author AuroraLS3
  */
 public class FXConfig {
 
@@ -43,7 +43,7 @@ public class FXConfig {
                 ConfigurationSection effect = effects.getConfigurationSection(effectName);
                 list.add(getEffect(effect));
             } catch (InvalidConfigurationException e) {
-                logger.log(Level.WARNING, "Misconfigured Effect (" + effectName + "): " + e.getMessage());
+                logger.log(Level.WARNING, String.format("Misconfigured Effect (%s): %s", effectName, e.getMessage()));
             }
         }
         return list;
@@ -52,7 +52,7 @@ public class FXConfig {
     private Effect getEffect(ConfigurationSection effect) throws InvalidConfigurationException {
         boolean hasLength = effect.contains("Length");
         boolean hasStrength = effect.contains("Strength");
-        boolean hasParticles = effect.contains("Particles");
+        boolean hasParticlesSection = effect.contains("Show_particles");
         boolean requiresPermission = effect.contains("Permission");
         boolean appliesToMobs = effect.getBoolean("Also_for_Mobs");
         List<String> blockNames = effect.getStringList("Blocks");
@@ -63,7 +63,7 @@ public class FXConfig {
 
         int length = hasLength ? effect.getInt("Length") : 7;
         int strength = hasStrength ? effect.getInt("Strength") : 1;
-        boolean particles = hasParticles ? effect.getBoolean("Particles") : true;
+        boolean showParticles = !hasParticlesSection || effect.getBoolean("Show_particles");
 
         Set<Predicate<Location>> conditions = new HashSet<>();
         Set<Material> blocks = getMaterials(blockNames);
@@ -81,7 +81,7 @@ public class FXConfig {
 
         Set<PotionEffectType> potionEffects = getPotionEffects(potionEffectNames);
         String permission = requiresPermission ? effect.getString("Permission") : null;
-        return new Effect(length, strength, particles, potionEffects, conditions, permission, appliesToMobs);
+        return new Effect(length, strength, showParticles, potionEffects, conditions, permission, appliesToMobs);
     }
 
     private Set<PotionEffectType> getPotionEffects(List<String> potionEffectNames) throws InvalidConfigurationException {
