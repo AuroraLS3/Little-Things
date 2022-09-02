@@ -21,6 +21,7 @@ public class Effect {
 
     private final int length;
     private final int strength;
+    private boolean particles;
     private final Set<PotionEffectType> effects;
     private final Set<Predicate<Location>> conditions;
     private final String permission;
@@ -28,9 +29,10 @@ public class Effect {
 
     private final Map<UUID, Long> lastApplied = new HashMap<>();
 
-    public Effect(int length, int strength, Set<PotionEffectType> effects, Set<Predicate<Location>> conditions, String permission, boolean appliesToMobs) {
+    public Effect(int length, int strength, boolean particles, Set<PotionEffectType> effects, Set<Predicate<Location>> conditions, String permission, boolean appliesToMobs) {
         this.length = length;
         this.effects = effects;
+        this.particles = particles;
         this.conditions = conditions;
         this.strength = strength;
         this.permission = permission;
@@ -69,12 +71,12 @@ public class Effect {
     }
 
     public void apply(LivingEntity entity) {
-        for (PotionEffectType effect : effects) {
-            PotionEffect currentEffect = entity.getPotionEffect(effect);
+        for (PotionEffectType effectType : effects) {
+            PotionEffect currentEffect = entity.getPotionEffect(effectType);
             if (currentEffect != null && currentEffect.getDuration() > length * 20 && currentEffect.getAmplifier() > strength - 1) {
                 continue;
             }
-            entity.addPotionEffect(effect.createEffect(length * 20, strength - 1), true);
+            entity.addPotionEffect(new PotionEffect(effectType, length * 20, strength - 1, false, particles));
         }
         lastApplied.put(entity.getUniqueId(), System.currentTimeMillis());
     }

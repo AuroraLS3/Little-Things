@@ -1,33 +1,39 @@
 Effects:
   Example_PathSpeedEffect:
     Strength: 2
+    Particles: false
     Effects:
       - SPEED
     Blocks:
       - GRAVEL
-      - GRASS_PATH
+      - DIRT_PATH
     Also_for_Mobs: true
   Example_LackOfOxygen:
     Length: 20
     Strength: 1
+    Particles: false
     Effects:
       - BLINDNESS
-    Below_y: 5
+    Below_y: -59
   Example_CantBurnWet:
     Length: 3
     Strength: 1
+    Particles: false
     Effects:
       - FIRE_RESISTANCE
     Blocks:
       - WATER
   Example_DimensionSickness:
     Length: 30
+    Particles: false
+    Permission: "littlefx.apply.example_dimensionsickness"
     Effects:
       - WEAKNESS
     Blocks:
       - NETHER_PORTAL
   Example_PoisonousCacti:
     Length: 20
+    Particles: true
     Effects:
       - POISON
     Blocks:
