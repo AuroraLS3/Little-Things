@@ -1,0 +1,73 @@
+name: CI
+
+on: [push, pull_request]
+jobs:
+  test:
+    name: Build & upload dev builds
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout git repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: ☕ Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '8'
+      - name: 🛠 Build Little Chef
+        run: |
+          cd littlechef
+          mvn package
+      - name: 🛠 Build Little Composter
+        run: |
+          cd littlecomposter
+          mvn package
+      - name: 🛠 Build Little Effects
+        run: |
+          cd littlefx
+          mvn package
+      - name: 🛠 Build Mob Banners
+        run: |
+          cd littlemobbanners
+          mvn package
+      - name: 🛠 Build Little XP
+        run: |
+          cd littlexp
+          mvn package
+      - name: ⚙ Generate upload metadata
+        run: |
+          git_hash=$(git rev-parse --short "$GITHUB_SHA")
+          echo "git_hash=$git_hash" >> $GITHUB_ENV
+          echo "littlechefBuild=$(find littlechef/target -iname *.jar)" >> $GITHUB_ENV
+          echo "littlecomposterBuild=$(find littlecomposter/target -iname *.jar)" >> $GITHUB_ENV
+          echo "littlefxBuild=$(find littlefx/target -iname *.jar)" >> $GITHUB_ENV
+          echo "littlemobbannersBuild=$(find littlemobbanners/target -iname *.jar)" >> $GITHUB_ENV
+          echo "littlexpBuild=$(find littlexp/target -iname *.jar)" >> $GITHUB_ENV
+      - name: 📤 Upload Little Chef
+        uses: actions/upload-artifact@v3
+        with:
+          name: LittleChef-${{ env.git_hash }}.zip
+          path: ${{ env.littlechefBuild }}
+      - name: 📤 Upload Little Composter
+        uses: actions/upload-artifact@v3
+        with:
+          name: LittleComposter-${{ env.git_hash }}.zip
+          path: ${{ env.littlecomposterBuild }}
+      - name: 📤 Upload Little Effects
+        uses: actions/upload-artifact@v3
+        with:
+          name: LittleFX-${{ env.git_hash }}.zip
+          path: ${{ env.littlefxBuild }}
+      - name: 📤 Upload Mob Banners
+        uses: actions/upload-artifact@v3
+        with:
+          name: MobBanners-${{ env.git_hash }}.zip
+          path: ${{ env.littlemobbannersBuild }}
+      - name: 📤 Upload Little XP
+        uses: actions/upload-artifact@v3
+        with:
+          name: LittleXP-${{ env.git_hash }}.zip
+          path: ${{ env.littlexpBuild }}
