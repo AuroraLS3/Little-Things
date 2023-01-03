@@ -173,6 +173,10 @@ public class MobBanners extends JavaPlugin implements Listener {
             return;
         }
 
+        final EntityType finalKilledType = killedType;
+        award.getExtraCommand().ifPresent(extraCommand ->
+                runExtraCommand(finalKilledType, playerName, totalKilled, extraCommand));
+
         String rewardMessage = config.getRewardMessage(playerName, totalKilled, killedType);
         if (config.arePublicMessagesEnabled()) {
             for (Player player : Bukkit.getOnlinePlayers()) {
@@ -182,6 +186,15 @@ public class MobBanners extends JavaPlugin implements Listener {
         } else {
             killerEntity.sendMessage(rewardMessage);
         }
+    }
+
+    private void runExtraCommand(EntityType killedType, String playerName, int totalKilled, String extraCommand) {
+        String withoutSlash = extraCommand.startsWith("/") ? extraCommand.substring(1) : extraCommand;
+        String placeholdersReplaced = withoutSlash
+                .replace("%player%", playerName)
+                .replace("%n%", Integer.toString(totalKilled))
+                .replace("%mob%", config.getReadableEntityName(killedType));
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), placeholdersReplaced);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

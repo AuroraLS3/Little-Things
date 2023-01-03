@@ -29,7 +29,7 @@ public class BannerConfig {
     public Optional<BannerAward> getAward(EntityType entityType) {
         Integer requiredKills = getRequiredKills(entityType);
         String bannerTag = getBannerTag(entityType);
-        String readableName = getReadableName(entityType);
+        String readableName = getReadableEntityName(entityType);
         String extraCommand = getExtraCommand(entityType);
 
         if (requiredKills <= 0 || bannerTag == null) {
@@ -52,11 +52,11 @@ public class BannerConfig {
                 config.getString("Reward_message", "&2%player% has defeated their %n%th %mob%!")
                         .replace("%player%", playerName)
                         .replace("%n%", Integer.toString(killCount))
-                        .replace("%mob%", getReadableName(entityType))
+                        .replace("%mob%", getReadableEntityName(entityType))
         );
     }
 
-    private String getReadableName(EntityType entityType) {
+    public String getReadableEntityName(EntityType entityType) {
         String originalName = entityType.name();
         String name = originalName.toLowerCase().replace('_', ' ');
         return originalName.charAt(0) + name.substring(1);

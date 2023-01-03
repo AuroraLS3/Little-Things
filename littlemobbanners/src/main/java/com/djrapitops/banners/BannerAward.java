@@ -2,6 +2,8 @@ package com.djrapitops.banners;
 
 import org.bukkit.Bukkit;
 
+import java.util.Optional;
+
 public class BannerAward {
 
     private final int everyXKills;
@@ -21,13 +23,13 @@ public class BannerAward {
     }
 
     public boolean award(String playerName) {
-        if (extraCommand != null) {
-            String withoutSlash = extraCommand.startsWith("/") ? extraCommand.substring(1) : extraCommand;
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), withoutSlash);
-        }
         return Bukkit.dispatchCommand(
                 Bukkit.getConsoleSender(),
                 "minecraft:give " + playerName + " minecraft:" + bannerTag.replace("_banner{", "_banner{display:{Name:\"{\\\"text\\\":\\\"" + readableName + " banner" + "\\\"}\"},") + " 1"
         );
+    }
+
+    public Optional<String> getExtraCommand() {
+        return Optional.ofNullable(extraCommand);
     }
 }
