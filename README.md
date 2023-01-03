@@ -1,9 +1,12 @@
 # ![Little Things](https://raw.githubusercontent.com/Rsl1122/Little-Things/master/images/LittleThings.png)
 
+[![CI](https://github.com/AuroraLS3/Little-Things/actions/workflows/ci.yml/badge.svg)](https://github.com/AuroraLS3/Little-Things/actions/workflows/ci.yml)
+
 Little Things is a collection of simple, small plugins that can be used to enhance gameplay and server experience of players.
 Each plugin attempts to solve a single thing well.
 
 - [Report Issues](https://github.com/Rsl1122/Little-Things/issues)
+- [Download dev builds](https://github.com/AuroraLS3/Little-Things/actions) (Click on commit title there to see the jars)
 
 # Little Effects
 
