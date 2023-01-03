@@ -56,25 +56,25 @@ jobs:
       - name: 📤 Upload Little Chef
         uses: actions/upload-artifact@v3
         with:
-          name: LittleChef-${{ env.git_hash }}.zip
+          name: LittleChef-${{ env.git_hash }}
           path: ${{ env.littlechefBuild }}
       - name: 📤 Upload Little Composter
         uses: actions/upload-artifact@v3
         with:
-          name: LittleComposter-${{ env.git_hash }}.zip
+          name: LittleComposter-${{ env.git_hash }}
           path: ${{ env.littlecomposterBuild }}
       - name: 📤 Upload Little Effects
         uses: actions/upload-artifact@v3
         with:
-          name: LittleFX-${{ env.git_hash }}.zip
+          name: LittleFX-${{ env.git_hash }}
           path: ${{ env.littlefxBuild }}
       - name: 📤 Upload Mob Banners
         uses: actions/upload-artifact@v3
         with:
-          name: MobBanners-${{ env.git_hash }}.zip
+          name: MobBanners-${{ env.git_hash }}
           path: ${{ env.littlemobbannersBuild }}
       - name: 📤 Upload Little XP
         uses: actions/upload-artifact@v3
         with:
-          name: LittleXP-${{ env.git_hash }}.zip
+          name: LittleXP-${{ env.git_hash }}
           path: ${{ env.littlexpBuild }}
