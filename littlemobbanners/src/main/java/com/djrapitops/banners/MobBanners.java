@@ -87,70 +87,20 @@ public class MobBanners extends JavaPlugin implements Listener {
     }
 
     private void loadAwards() {
-        addAward(config, EntityType.BAT, BannerTags.BAT);
-        addAward(config, EntityType.BEE, BannerTags.BEE);
-        addAward(config, EntityType.BLAZE, BannerTags.BLAZE);
-        addAward(config, EntityType.CAT, BannerTags.CAT);
-        addAward(config, EntityType.CAVE_SPIDER, BannerTags.CAVE_SPIDER);
-        addAward(config, EntityType.CHICKEN, BannerTags.CHICKEN);
-        addAward(config, EntityType.COD, BannerTags.COD);
-        addAward(config, EntityType.COW, BannerTags.COW);
-        addAward(config, EntityType.CREEPER, BannerTags.CREEPER);
-        addAward(config, EntityType.DOLPHIN, BannerTags.DOLPHIN);
-        addAward(config, EntityType.DONKEY, BannerTags.DONKEY);
-        addAward(config, EntityType.DROWNED, BannerTags.DROWNED);
-        addAward(config, EntityType.ELDER_GUARDIAN, BannerTags.ELDER_GUARDIAN);
-        addAward(config, EntityType.ENDER_DRAGON, BannerTags.ENDER_DRAGON);
-        addAward(config, EntityType.ENDERMAN, BannerTags.ENDERMAN);
-        addAward(config, EntityType.EVOKER, BannerTags.EVOKER);
-        addAward(config, EntityType.FOX, BannerTags.FOX);
-        addAward(config, EntityType.GHAST, BannerTags.GHAST);
-        addAward(config, EntityType.GUARDIAN, BannerTags.GUARDIAN);
-        addAward(config, EntityType.HOGLIN, BannerTags.HOGLIN);
-        addAward(config, EntityType.HORSE, BannerTags.HORSE);
-        addAward(config, EntityType.HUSK, BannerTags.HUSK);
-        addAward(config, EntityType.ILLUSIONER, BannerTags.ILLUSIONER);
-        addAward(config, EntityType.IRON_GOLEM, BannerTags.IRON_GOLEM);
-        addAward(config, EntityType.LLAMA, BannerTags.LLAMA);
-        addAward(config, EntityType.MAGMA_CUBE, BannerTags.MAGMA_CUBE);
-        addAward(config, EntityType.MULE, BannerTags.MULE);
-        addAward(config, EntityType.MUSHROOM_COW, BannerTags.MUSHROOM_COW);
-        addAward(config, EntityType.OCELOT, BannerTags.OCELOT);
-        addAward(config, EntityType.PANDA, BannerTags.PANDA);
-        addAward(config, EntityType.PARROT, BannerTags.PARROT);
-        addAward(config, EntityType.PHANTOM, BannerTags.PHANTOM);
-        addAward(config, EntityType.PIG, BannerTags.PIG);
-        addAward(config, EntityType.PIGLIN, BannerTags.PIGLIN);
-        addAward(config, EntityType.PIGLIN_BRUTE, BannerTags.PIGLIN);
-        addAward(config, EntityType.POLAR_BEAR, BannerTags.POLAR_BEAR);
-        addAward(config, EntityType.PUFFERFISH, BannerTags.PUFFERFISH);
-        addAward(config, EntityType.RABBIT, BannerTags.RABBIT);
-        addAward(config, EntityType.RAVAGER, BannerTags.RAVAGER);
-        addAward(config, EntityType.SALMON, BannerTags.SALMON);
-        addAward(config, EntityType.SHEEP, BannerTags.SHEEP);
-        addAward(config, EntityType.SHULKER, BannerTags.SHULKER);
-        addAward(config, EntityType.SILVERFISH, BannerTags.SILVERFISH);
-        addAward(config, EntityType.SLIME, BannerTags.SLIME);
-        addAward(config, EntityType.SNOWMAN, BannerTags.SNOWMAN);
-        addAward(config, EntityType.SPIDER, BannerTags.SPIDER);
-        addAward(config, EntityType.SQUID, BannerTags.SQUID);
-        addAward(config, EntityType.STRAY, BannerTags.STRAY);
-        addAward(config, EntityType.STRIDER, BannerTags.STRIDER);
-        addAward(config, EntityType.TURTLE, BannerTags.TURTLE);
-        addAward(config, EntityType.TROPICAL_FISH, BannerTags.TROPICAL_FISH);
-        addAward(config, EntityType.VEX, BannerTags.VEX);
-        addAward(config, EntityType.WITCH, BannerTags.WITCH);
-        addAward(config, EntityType.WITHER, BannerTags.WITHER);
-        addAward(config, EntityType.WITHER_SKELETON, BannerTags.WITHER_SKELETON);
-        addAward(config, EntityType.ZOGLIN, BannerTags.ZOGLIN);
-        addAward(config, EntityType.ZOMBIE, BannerTags.ZOMBIE);
+        for (EntityType entityType : EntityType.values()) {
+            addAward(config, entityType);
+        }
+
+        for (String warning : config.getWarnings()) {
+            logger.log(Level.WARNING, warning);
+        }
 
         logger.log(Level.INFO, "Loaded " + awards.size() + " banners.");
     }
 
-    private void addAward(BannerConfig config, EntityType entityType, BannerTags tagType) {
-        BannerAward award = config.getAward(entityType, tagType);
-        if (award != null) awards.put(entityType, award);
+    private void addAward(BannerConfig config, EntityType entityType) {
+        config.getAward(entityType)
+                .ifPresent(award -> awards.put(entityType, award));
     }
 
     @Override
@@ -263,7 +213,7 @@ public class MobBanners extends JavaPlugin implements Listener {
 
     private void backupBrokenFile(UUID playerUUID) {
         Path playerFile = killCounterStorage.getPlayerFile(playerUUID).toPath();
-        Path backup = playerFile.resolveSibling(playerUUID.toString() + "-backup.yml");
+        Path backup = playerFile.resolveSibling(playerUUID + "-backup.yml");
         try {
             Files.copy(playerFile, backup);
             logger.severe("Created backup of the broken file to " + backup.toFile().getAbsolutePath());
